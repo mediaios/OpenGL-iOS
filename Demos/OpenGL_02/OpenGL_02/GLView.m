@@ -160,10 +160,14 @@
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
     
     // Load the vertex data
-    //
-    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, 0, vertices );
+    /*
+     告诉OpenGL如何解析顶点数据
+     */
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, 0, vertices);
     glEnableVertexAttribArray(_positionSlot);
-    glDrawArrays(GL_TRIANGLES, 0,nums);
+    
+    // 渲染图形： 它使用当前激活的着色器，定义的定点属性，以及VBO的定点数据来渲染图元
+    glDrawArrays(GL_TRIANGLES, 0, nums);
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 

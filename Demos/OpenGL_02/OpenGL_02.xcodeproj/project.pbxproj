@@ -145,8 +145,8 @@
 		AA7C9B51231653D90036EF14 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				AA7C9B53231653EF0036EF14 /* FragmentShader.glsl */,
 				AA7C9B52231653EF0036EF14 /* VertexShader.glsl */,
+				AA7C9B53231653EF0036EF14 /* FragmentShader.glsl */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
