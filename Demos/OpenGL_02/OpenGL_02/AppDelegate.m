@@ -2,8 +2,8 @@
 //  AppDelegate.m
 //  OpenGL_02
 //
-//  Created by ethan on 2019/8/27.
-//  Copyright © 2019 ucloud. All rights reserved.
+//  Created by mediaios on 2019/8/28.
+//  Copyright © 2019 mediaios. All rights reserved.
 //
 
 #import "AppDelegate.h"

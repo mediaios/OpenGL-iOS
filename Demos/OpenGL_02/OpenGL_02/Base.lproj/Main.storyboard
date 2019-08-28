@@ -14,15 +14,82 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="GLView">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gh9-tt-Ehn">
+                                <rect key="frame" x="0.0" y="44" width="414" height="70"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Njf-lm-OQX">
+                                        <rect key="frame" x="10" y="14" width="91" height="42"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="42" id="HIc-FI-98J"/>
+                                            <constraint firstAttribute="width" constant="91" id="dAq-e5-MqD"/>
+                                        </constraints>
+                                        <state key="normal" title="三角形"/>
+                                        <connections>
+                                            <action selector="onPressedBtnTriangle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Msy-tg-uEJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ayt-rB-8WA">
+                                        <rect key="frame" x="161.5" y="14" width="91" height="42"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="42" id="afF-Vs-a0F"/>
+                                            <constraint firstAttribute="width" constant="91" id="t5J-uV-iK3"/>
+                                        </constraints>
+                                        <state key="normal" title="长方形"/>
+                                        <connections>
+                                            <action selector="onPressedBtnRectangle:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yBv-df-u9w"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWe-Tq-hyd">
+                                        <rect key="frame" x="313" y="14" width="91" height="42"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="91" id="FEE-Cm-Qmf"/>
+                                            <constraint firstAttribute="height" constant="42" id="OUm-Cm-sHT"/>
+                                        </constraints>
+                                        <state key="normal" title="八边形"/>
+                                        <connections>
+                                            <action selector="onPressedBtnOctagon:" destination="BYZ-38-t0r" eventType="touchUpInside" id="J2y-da-Lmn"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Ayt-rB-8WA" firstAttribute="centerY" secondItem="gh9-tt-Ehn" secondAttribute="centerY" id="J4U-Dk-BjG"/>
+                                    <constraint firstItem="Ayt-rB-8WA" firstAttribute="centerX" secondItem="gh9-tt-Ehn" secondAttribute="centerX" id="Okd-wJ-rIO"/>
+                                    <constraint firstItem="Njf-lm-OQX" firstAttribute="leading" secondItem="gh9-tt-Ehn" secondAttribute="leading" constant="10" id="QWV-Us-Ioc"/>
+                                    <constraint firstAttribute="trailing" secondItem="FWe-Tq-hyd" secondAttribute="trailing" constant="10" id="T98-1G-6m2"/>
+                                    <constraint firstItem="Njf-lm-OQX" firstAttribute="centerY" secondItem="gh9-tt-Ehn" secondAttribute="centerY" id="ba7-zg-HK4"/>
+                                    <constraint firstItem="FWe-Tq-hyd" firstAttribute="centerY" secondItem="gh9-tt-Ehn" secondAttribute="centerY" id="mjR-mq-Js3"/>
+                                    <constraint firstAttribute="height" constant="70" id="qQJ-Ne-1m3"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XHL-cU-dbf" customClass="GLView">
+                                <rect key="frame" x="2" y="114" width="414" height="782"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="XHL-cU-dbf" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="5N9-nA-bsb"/>
+                            <constraint firstItem="XHL-cU-dbf" firstAttribute="top" secondItem="gh9-tt-Ehn" secondAttribute="bottom" id="8HE-pQ-TUj"/>
+                            <constraint firstItem="gh9-tt-Ehn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="CFW-wW-hjN"/>
+                            <constraint firstAttribute="bottom" secondItem="XHL-cU-dbf" secondAttribute="bottom" id="EUO-Af-lc5"/>
+                            <constraint firstItem="XHL-cU-dbf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="R26-s0-sqi"/>
+                            <constraint firstItem="gh9-tt-Ehn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="S83-ps-Uq5"/>
+                            <constraint firstItem="gh9-tt-Ehn" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="a2p-IQ-r7B"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="glView" destination="XHL-cU-dbf" id="lvM-WX-oH9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-133" y="140"/>
         </scene>
     </scenes>
 </document>

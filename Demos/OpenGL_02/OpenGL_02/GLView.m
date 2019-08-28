@@ -1,43 +1,21 @@
 //
 //  GLView.m
-//  OpenGL_02
+//  OpenGL_01
 //
-//  Created by ethan on 2019/8/27.
-//  Copyright © 2019 ucloud. All rights reserved.
+//  Created by mediaios on 2019/8/28.
+//  Copyright © 2019 mediaios. All rights reserved.
 //
 
 #import "GLView.h"
 
-typedef struct CustomVertex
-{
-    float position[4];
-    float color[4];
-}CustomVertex;
-
-enum{
-  ATTRIBUTE_POSITION = 0,
-    ATTRIBUTE_COLOR,
-    NUM_ATTRIBUTES
-};
-
-GLint glViewAttributes[NUM_ATTRIBUTES];
-
-
-
 @implementation GLView
 
-- (void)dealloc {
-    if (_framebuffer) {
-        glDeleteFramebuffers(1, &_framebuffer);
-        _framebuffer = 0;
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        [self setup];
     }
-    
-    if (_renderbuffer) {
-        glDeleteRenderbuffers(1, &_renderbuffer);
-        _renderbuffer = 0;
-    }
-    
-    _context = nil;
+    return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -48,17 +26,32 @@ GLint glViewAttributes[NUM_ATTRIBUTES];
     return self;
 }
 
-- (void)layoutSubviews
+- (void)didMoveToWindow
 {
-    [super layoutSubviews];
-    CGSize size = self.frame.size;
-    if (CGSizeEqualToSize(_oldSize, CGSizeZero) ||
-        !CGSizeEqualToSize(_oldSize, size)) {
-        [self setup];
-        _oldSize = size;
-    }
-    [self render];
+    [super didMoveToWindow];
+    GLfloat vertices[] = {
+        -0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        0.5f,  -0.5f, 0.0f
+    };
+    [self render:vertices counts:3];
 }
+
+- (void)dealloc
+{
+    if (_frameBuffer) {
+        glDeleteBuffers(1, &_frameBuffer);
+        _frameBuffer = 0;
+    }
+    if (_renderBuffer) {
+        glDeleteBuffers(1, &_renderBuffer);
+        _renderBuffer = 0;
+    }
+    _context = nil;
+}
+
+
+#pragma mark- About OpenGL ES
 
 - (void)setup
 {
@@ -66,13 +59,13 @@ GLint glViewAttributes[NUM_ATTRIBUTES];
     [self setupContext];
     [self setupRenderBuffer];
     [self setupFrameBuffer];
-    
     [self compileShaders];
-    [self setupVBOs];
+    
+    NSError *error;
+    NSAssert1([self checkFramebuffer:&error], @"%@",error.userInfo[@"ErrorMessage"]);
 }
 
 
-#pragma mark -Overrid
 + (Class)layerClass
 {
     return [CAEAGLLayer class];
@@ -89,45 +82,28 @@ GLint glViewAttributes[NUM_ATTRIBUTES];
     if (!_context) {
         _context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     }
-    NSAssert(_context && [EAGLContext setCurrentContext:_context],@"初始化GL环境失败");
+    NSAssert(_context && [EAGLContext setCurrentContext:_context],@"Failed to initialize OpenGLES 2.0 context");
 }
 
-- (void)setupRenderBuffer {
-    // 释放旧的 renderbuffer
-    if (_renderbuffer) {
-        glDeleteRenderbuffers(1, &_renderbuffer);
-        _renderbuffer = 0;
-    }
-    
-    // 生成renderbuffer ( renderbuffer = 用于展示的窗口 )
-    glGenRenderbuffers(1, &_renderbuffer);
-    // 绑定renderbuffer
-    glBindRenderbuffer(GL_RENDERBUFFER, _renderbuffer);
-    // GL_RENDERBUFFER 的内容存储到实现 EAGLDrawable 协议的 CAEAGLLayer
+- (void)setupRenderBuffer
+{
+    glGenRenderbuffers(1, &_renderBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, _renderBuffer);
     [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
 }
 
-- (void)setupFrameBuffer {
-    // 释放旧的 framebuffer
-    if (_framebuffer) {
-        glDeleteFramebuffers(1, &_framebuffer);
-        _framebuffer = 0;
-    }
-    
-    // 生成 framebuffer ( framebuffer = 画布 )
-    glGenFramebuffers(1, &_framebuffer);
-    // 绑定 fraembuffer
-    glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-    
-    // framebuffer 不对绘制的内容做存储, 所以这一步是将 framebuffer 绑定到 renderbuffer ( 绘制的结果就存在 renderbuffer )
+- (void)setupFrameBuffer
+{
+    glGenFramebuffers(1, &_frameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                              GL_RENDERBUFFER, _renderbuffer);
+                              GL_RENDERBUFFER, _renderBuffer);
 }
 
 - (void)compileShaders
 {
-    GLuint vertexShader = [self compileShader:@"aa.vsh" withType:GL_VERTEX_SHADER];
-    GLuint framentShader = [self compileShader:@"aa.fsh" withType:GL_FRAGMENT_SHADER];
+    GLuint vertexShader = [self compileShader:@"VertexShader.glsl" withType:GL_VERTEX_SHADER];
+    GLuint framentShader = [self compileShader:@"FragmentShader.glsl" withType:GL_FRAGMENT_SHADER];
     GLuint programHandle = glCreateProgram();
     glAttachShader(programHandle, vertexShader);
     glAttachShader(programHandle, framentShader);
@@ -143,47 +119,9 @@ GLint glViewAttributes[NUM_ATTRIBUTES];
         exit(1);
     }
     glUseProgram(programHandle);
+    _positionSlot = glGetAttribLocation(programHandle, "vPosition");
     
-    glViewAttributes[ATTRIBUTE_POSITION] = glGetAttribLocation(programHandle, "position");
-    glViewAttributes[ATTRIBUTE_COLOR] = glGetAttribLocation(programHandle, "color");
-    glEnableVertexAttribArray(glViewAttributes[ATTRIBUTE_POSITION]);
-    glEnableVertexAttribArray(glViewAttributes[ATTRIBUTE_COLOR]);
 }
-
-- (void)setupVBOs
-{
-    static const  CustomVertex vertices[] = {
-        {.position = {-1.0,1.0,0,1},  .color = {1,0,0,1}},
-        {.position = {-1.0,-1.0,0,1}, .color = {0,1,0,1}},
-        {.position = {1.0,-1.0,0,1},  .color = {0,0,1,1}}
-    };
-    GLuint vertexBuffer;
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-}
-
-
-- (void)render {
-    // 因为 GL 的所有 API 都是基于最后一次绑定的对象作为作用对象。有很多错误是因为没有绑定或者绑定了错误的对象导致得到了错误的结果。
-    // 所以每次在修改 GL 对象时，先绑定一次要修改的对象。
-    glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, _renderbuffer);
-    glClearColor(0, 1, 1, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
-    
-    // 使用VBO时，最后一个参数0为要获取参数在GL_ARRAY_BUFFER中的偏移量
-    glVertexAttribPointer(glViewAttributes[ATTRIBUTE_POSITION], 4, GL_FLOAT, GL_FALSE, sizeof(CustomVertex), 0);
-    glVertexAttribPointer(glViewAttributes[ATTRIBUTE_COLOR], 4, GL_FLOAT, GL_FALSE, sizeof(CustomVertex), (GLvoid *)(sizeof(float) * 4));
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    
-    // 做完所有绘制操作后，最终呈现到屏幕上
-    [_context presentRenderbuffer:GL_RENDERBUFFER];
-}
-
-
 
 - (GLuint)compileShader:(NSString *)shaderName withType:(GLenum)shaderType
 {
@@ -209,8 +147,115 @@ GLint glViewAttributes[NUM_ATTRIBUTES];
         exit(1);
     }
     return shaderHandle;
+}
+
+
+- (void)render:(CGFloat*)vertices counts:(GLint)nums
+{
+    glClearColor(0, 1.0, 0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
     
+    // Setup viewport
+    //
+    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
     
+    // Load the vertex data
+    //
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, 0, vertices );
+    glEnableVertexAttribArray(_positionSlot);
+    glDrawArrays(GL_TRIANGLES, 0,nums);
+    [_context presentRenderbuffer:GL_RENDERBUFFER];
+}
+
+- (BOOL)checkFramebuffer:(NSError *__autoreleasing *)error {
+    // 检查 framebuffer 是否创建成功
+    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    NSString *errorMessage = nil;
+    BOOL result = NO;
+    
+    switch (status)
+    {
+        case GL_FRAMEBUFFER_UNSUPPORTED:
+            errorMessage = @"framebuffer不支持该格式";
+            result = NO;
+            break;
+        case GL_FRAMEBUFFER_COMPLETE:
+            NSLog(@"framebuffer 创建成功");
+            result = YES;
+            break;
+        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+            errorMessage = @"Framebuffer不完整 缺失组件";
+            result = NO;
+            break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+            errorMessage = @"Framebuffer 不完整, 附加图片必须要指定大小";
+            result = NO;
+            break;
+        default:
+            // 一般是超出GL纹理的最大限制
+            errorMessage = @"未知错误 error !!!!";
+            result = NO;
+            break;
+    }
+    
+    NSLog(@"%@",errorMessage ? errorMessage : @"");
+    *error = errorMessage ? [NSError errorWithDomain:@"com.error"
+                                                code:status
+                                            userInfo:@{@"ErrorMessage" : errorMessage}] : nil;
+    
+    return result;
+}
+
+#pragma mark-Public methods
+- (void)showTriangle
+{
+    GLfloat vertices[] = {
+        -0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        0.5f,  -0.5f, 0.0f
+    };
+    [self render:vertices counts:3];
+}
+
+- (void)showRectangle
+{
+    // 矩形
+    GLfloat vertices[] = {
+        -0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        0.5f,  -0.5f, 0.0f,
+        0.5f,   0.5f, 0.0f,
+        -0.5f,  0.5f, 0.0f,
+        0.5f,  -0.5f, 0.0f
+    };
+    [self render:vertices counts:6];
+}
+
+- (void)showOctagon
+{
+    // 八边形
+    GLfloat p_w = self.frame.size.height/self.frame.size.width;
+    GLfloat vertices[] = {
+      0.0f,  0.2f,  0.0f,
+      -0.2f*p_w, 0.1f,  0.0f,
+      0.2f*p_w,  0.1f,  0.0f,
+      0.2f*p_w,  0.1f,  0.0f,
+      0.3f*p_w,  0.0f,  0.0f,
+      0.2f*p_w,  -0.1f, 0.0f,
+      0.2f*p_w,  -0.1f, 0.0f,
+      0.0f*p_w,  -0.2f, 0.0f,
+      -0.2f*p_w, -0.1f, 0.0f,
+      -0.2f*p_w, -0.1f, 0.0f,
+      -0.3f*p_w, 0.0f,  0.0f,
+      -0.2f*p_w, 0.1f,  0.0f, // 外围三角形绘画结束，接着绘画内部矩形
+      -0.2f*p_w, 0.1f,  0.0f,
+      -0.2f*p_w,-0.1f,  0.0f,
+       0.2f*p_w, -0.1f, 0.0f,
+       0.2f*p_w, -0.1f, 0.0f,
+       0.2f*p_w,  0.1f, 0.0f,
+       -0.2f*p_w, 0.1f, 0.0f
+    };
+    [self render:vertices counts:18];
 }
 
 @end
