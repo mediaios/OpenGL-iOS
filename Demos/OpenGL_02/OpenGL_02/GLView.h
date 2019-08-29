@@ -21,21 +21,54 @@ NS_ASSUME_NONNULL_BEGIN
     GLuint _positionSlot;
 }
 
-
-#pragma mark-Public methods
+#pragma mark- 测试直线图元
+/**
+ 三个顶点
+ */
+- (void)showLinesPoints3;
 
 /**
- 显示一个三角形
+ 四个顶点
+ */
+- (void)showLinesPoints4;
+
+/**
+ 八个顶点
+ */
+- (void)showLinesPoints8;
+
+#pragma mark- 测试三角形图元
+/**
+ 三个顶点
+ */
+- (void)drawWithPrimitiveTrianglePoints3;
+
+
+/**
+ 四个顶点
+ */
+- (void)drawWithPrimitiveTrianglePoints4;
+
+
+/**
+ 八个顶点
+ */
+- (void)drawWithPrimitiveTrianglePoints8;
+
+
+#pragma mark- 利用 GL_TRIANGLES三角图元绘图
+/**
+ 绘制三角形
  */
 - (void)showTriangle;
 
 /**
- 显示一个长方形
+ 绘制一个长方形
  */
 - (void)showRectangle;
 
 /**
- 显示一个八边形
+ 绘制一个八边形
  */
 - (void)showOctagon;
 @end

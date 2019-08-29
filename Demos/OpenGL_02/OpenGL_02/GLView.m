@@ -29,12 +29,6 @@
 - (void)didMoveToWindow
 {
     [super didMoveToWindow];
-    GLfloat vertices[] = {
-        -0.5f,  0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-        0.5f,  -0.5f, 0.0f
-    };
-    [self render:vertices counts:3];
 }
 
 - (void)dealloc
@@ -150,7 +144,7 @@
 }
 
 
-- (void)render:(CGFloat*)vertices counts:(GLint)nums
+- (void)render:(float*)vertices counts:(GLint)nums mode:(GLenum)mode
 {
     glClearColor(0, 1.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -167,7 +161,7 @@
     glEnableVertexAttribArray(_positionSlot);
     
     // 渲染图形： 它使用当前激活的着色器，定义的定点属性，以及VBO的定点数据来渲染图元
-    glDrawArrays(GL_TRIANGLES, 0, nums);
+    glDrawArrays(mode, 0, nums);
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
@@ -211,6 +205,126 @@
 }
 
 #pragma mark-Public methods
+
+/*****    线条操作     *****/
+
+- (void)showLinesPoints3
+{
+    // 三个顶点
+    GLfloat vertices[] = {
+        -0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        0.5f,  -0.5f, 0.0f
+    };
+    [self render:vertices counts:3 mode:GL_LINES];
+    usleep(1000*1000);
+    [self render:vertices counts:3 mode:GL_LINE_STRIP];
+    usleep(1000*1000);
+    [self render:vertices counts:3 mode:GL_LINE_LOOP];
+    
+    
+}
+
+- (void)showLinesPoints4
+{
+    // 四个顶点
+    GLfloat vertices[] = {
+        -0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        0.5f,  -0.5f, 0.0f,
+        0.5f,   0.5f, 0.0f,
+    };
+    [self render:vertices counts:4 mode:GL_LINES];
+    usleep(1000*1000);
+    [self render:vertices counts:4 mode:GL_LINE_STRIP];
+    usleep(1000*1000);
+    [self render:vertices counts:4 mode:GL_LINE_LOOP];
+}
+
+- (void)showLinesPoints8
+{
+    // 八边形
+    GLfloat p_w = self.frame.size.height/self.frame.size.width;
+    GLfloat vertices[] = {
+        0.0f,  0.2f,  0.0f,
+        0.2f*p_w,  0.1f,  0.0f,
+        0.3f*p_w,  0.0f,  0.0f,
+        0.2f*p_w,  -0.1f, 0.0f,
+        0.0f*p_w,  -0.2f, 0.0f,
+        -0.2f*p_w, -0.1f, 0.0f,
+        -0.3f*p_w, 0.0f,  0.0f,
+        -0.2f*p_w, 0.1f,  0.0f
+    };
+    [self render:vertices counts:8 mode:GL_LINES];
+    usleep(1000*1000);
+    [self render:vertices counts:8 mode:GL_LINE_STRIP];
+    usleep(1000*1000);
+    [self render:vertices counts:8 mode:GL_LINE_LOOP];
+}
+
+
+/*****    图元类型: 三角形     *****/
+
+- (void)drawWithPrimitiveTrianglePoints3
+{
+    GLfloat vertices[] = {
+        -0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        0.5f,  -0.5f, 0.0f
+    };
+    [self render:vertices counts:3 mode:GL_TRIANGLES];
+    usleep(1000*1000);
+    [self render:vertices counts:3 mode:GL_TRIANGLE_STRIP];
+    usleep(1000*1000);
+    [self render:vertices counts:3 mode:GL_TRIANGLE_FAN];
+}
+
+
+/**
+ 四个点
+ */
+- (void)drawWithPrimitiveTrianglePoints4
+{
+    // 矩形
+    GLfloat vertices[] = {
+        -0.5f,  0.5f, 0.0f,
+        0.5f,   0.5f, 0.0f,
+        0.5f,  -0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f
+    };
+    [self render:vertices counts:4 mode:GL_TRIANGLES];
+    usleep(1000*1000);
+    [self render:vertices counts:4 mode:GL_TRIANGLE_STRIP];
+    usleep(1000*1000);
+    [self render:vertices counts:4 mode:GL_TRIANGLE_FAN];
+}
+
+
+/**
+ 八个点
+ */
+- (void)drawWithPrimitiveTrianglePoints8
+{
+    GLfloat p_w = self.frame.size.height/self.frame.size.width;
+    GLfloat vertices[] = {
+        0.0f,  0.2f,  0.0f,
+        0.2f*p_w,  0.1f,  0.0f,
+        0.3f*p_w,  0.0f,  0.0f,
+        0.2f*p_w,  -0.1f, 0.0f,
+        0.0f*p_w,  -0.2f, 0.0f,
+        -0.2f*p_w, -0.1f, 0.0f,
+        -0.3f*p_w, 0.0f,  0.0f,
+        -0.2f*p_w, 0.1f,  0.0f
+    };
+    [self render:vertices counts:8 mode:GL_TRIANGLES];
+    usleep(1000*1000);
+    [self render:vertices counts:8 mode:GL_TRIANGLE_STRIP];
+    usleep(1000*1000);
+    [self render:vertices counts:8 mode:GL_TRIANGLE_FAN];
+}
+
+
+
 - (void)showTriangle
 {
     GLfloat vertices[] = {
@@ -218,12 +332,11 @@
         -0.5f, -0.5f, 0.0f,
         0.5f,  -0.5f, 0.0f
     };
-    [self render:vertices counts:3];
+    [self render:vertices counts:3 mode:GL_TRIANGLES];
 }
 
 - (void)showRectangle
 {
-    // 矩形
     GLfloat vertices[] = {
         -0.5f,  0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
@@ -232,12 +345,11 @@
         -0.5f,  0.5f, 0.0f,
         0.5f,  -0.5f, 0.0f
     };
-    [self render:vertices counts:6];
+    [self render:vertices counts:6 mode:GL_TRIANGLES];
 }
 
 - (void)showOctagon
 {
-    // 八边形
     GLfloat p_w = self.frame.size.height/self.frame.size.width;
     GLfloat vertices[] = {
       0.0f,  0.2f,  0.0f,
@@ -259,7 +371,7 @@
        0.2f*p_w,  0.1f, 0.0f,
        -0.2f*p_w, 0.1f, 0.0f
     };
-    [self render:vertices counts:18];
+    [self render:vertices counts:18 mode:GL_TRIANGLES];
 }
 
 @end
