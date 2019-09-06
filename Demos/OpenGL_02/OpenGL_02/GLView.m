@@ -155,7 +155,7 @@
     
     // Load the vertex data
     /*
-     告诉OpenGL如何解析顶点数据
+     告诉OpenGL如何解析顶点数据 
      */
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, 0, vertices);
     glEnableVertexAttribArray(_positionSlot);
@@ -230,9 +230,9 @@
     // 四个顶点
     GLfloat vertices[] = {
         -0.5f,  0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-        0.5f,  -0.5f, 0.0f,
         0.5f,   0.5f, 0.0f,
+        0.5f,  -0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f
     };
     [self render:vertices counts:4 mode:GL_LINES];
     usleep(1000*1000);
