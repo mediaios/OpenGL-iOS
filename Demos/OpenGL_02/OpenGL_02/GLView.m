@@ -123,22 +123,33 @@
     NSError *error;
     NSString *shaderString = [NSString  stringWithContentsOfFile:shaderPath encoding:NSUTF8StringEncoding error:&error];
     if (!shaderString) {
-        exit(1);
+        NSLog(@"get shader file error...");
+        return 0;
     }
     const char* shaderStringUTF8 = [shaderString UTF8String];
     int shaderStringLen = (int)[shaderString length];
     GLuint shaderHandle = glCreateShader(shaderType);
+    if (shaderHandle == 0) {
+        NSLog(@"create shader error...");
+        return 0;
+    }
+    
     glShaderSource(shaderHandle, 1, &shaderStringUTF8, &shaderStringLen);
     glCompileShader(shaderHandle);
     
-    GLuint compileSuccess;
+    GLint compileSuccess = 0;
     glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &compileSuccess);
     if (compileSuccess == GL_FALSE) {
-        GLchar message[256];
-        glGetShaderInfoLog(shaderHandle, sizeof(message), 0, &message[0]);
-        NSString *messageString= [NSString stringWithUTF8String:message];
-        NSLog(@"glGetShaderiv ShaderIngoLog: %@", messageString);
-        exit(1);
+        GLint messageLen = 0;
+        glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, &messageLen);
+        if (messageLen > 1) {
+            char * infoLog = malloc(sizeof(char) * messageLen);
+            glGetShaderInfoLog (shaderHandle, messageLen, NULL, infoLog);
+            NSLog(@"Error compiling shader:\n%s\n", infoLog );
+            free(infoLog);
+        }
+        glDeleteShader(shaderHandle);
+        return 0;
     }
     return shaderHandle;
 }
