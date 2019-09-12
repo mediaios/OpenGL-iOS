@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+//#import "MIMatrix.h"
+#import "ksMatrix.h"
 @import OpenGLES;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,11 +20,22 @@ NS_ASSUME_NONNULL_BEGIN
     GLuint          _renderBuffer;
     GLuint          _frameBuffer;
     
-    GLuint _positionSlot;
     GLuint _programHandle;
+    GLuint _positionSlot;
     GLint _modelViewSlot;
     GLint _projectionSlot;
+    
+    ksMatrix4 _modelViewMatrix;
+    ksMatrix4 _projectionMatrix;
+    
 }
+//  定义图形的位置
+@property (nonatomic,assign) float mX;
+@property (nonatomic,assign) float mY;
+@property (nonatomic,assign) float mZ;
+
+
+- (void)cleanup;
 @end
 
 NS_ASSUME_NONNULL_END

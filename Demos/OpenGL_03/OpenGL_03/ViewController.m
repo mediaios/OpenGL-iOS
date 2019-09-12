@@ -7,8 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "GLView.h"
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UISlider *posXSlider;
+@property (weak, nonatomic) IBOutlet GLView *glView;
+
 
 @end
 
@@ -17,7 +21,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self resetControlls];
 }
 
+- (IBAction)posXSliderChange:(id)sender {
+    UISlider * slider = (UISlider *)sender;
+    float currentValue = [slider value];
+    self.glView.mX = currentValue;
+    
+    NSLog(@" >> current x is %f", currentValue);
+}
+
+- (void)resetControlls
+{
+    [self.posXSlider setValue:self.glView.mX];
+}
 
 @end

@@ -18,23 +18,60 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJM-PP-FAu" customClass="GLView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JMW-Fk-01f" userLabel="controlView">
+                                <rect key="frame" x="0.0" y="696" width="414" height="200"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jc6-sj-eNc">
+                                        <rect key="frame" x="0.0" y="8" width="257" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="x:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F5d-dh-wux">
+                                                <rect key="frame" x="8" y="11" width="14" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-3" maxValue="3" translatesAutoresizingMaskIntoConstraints="NO" id="IGM-EP-kgO">
+                                                <rect key="frame" x="39" y="6" width="212" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <connections>
+                                                    <action selector="posXSliderChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="eV5-hF-lkN"/>
+                                                </connections>
+                                            </slider>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="9sS-j5-M2h"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJM-PP-FAu" customClass="GLView">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="686"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="dJM-PP-FAu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1vm-hu-rwL"/>
-                            <constraint firstAttribute="bottom" secondItem="dJM-PP-FAu" secondAttribute="bottom" id="YoP-xz-1sP"/>
-                            <constraint firstItem="dJM-PP-FAu" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="p1r-mt-Azd"/>
-                            <constraint firstItem="dJM-PP-FAu" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="z9J-cw-d50"/>
+                            <constraint firstItem="JMW-Fk-01f" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="33L-7h-Lil"/>
+                            <constraint firstItem="dJM-PP-FAu" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="3zV-uJ-V7n"/>
+                            <constraint firstItem="JMW-Fk-01f" firstAttribute="top" secondItem="dJM-PP-FAu" secondAttribute="bottom" constant="10" id="LNg-VI-2hk"/>
+                            <constraint firstItem="dJM-PP-FAu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QjI-Qe-WBk"/>
+                            <constraint firstAttribute="bottom" secondItem="JMW-Fk-01f" secondAttribute="bottom" id="T6r-pC-AIr"/>
+                            <constraint firstItem="JMW-Fk-01f" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qcT-N3-epx"/>
+                            <constraint firstItem="dJM-PP-FAu" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="wHY-i7-RWV"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="glView" destination="dJM-PP-FAu" id="6KT-zG-BF8"/>
+                        <outlet property="posXSlider" destination="IGM-EP-kgO" id="coe-PQ-Qej"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="37.681159420289859" y="18.75"/>
         </scene>
     </scenes>
 </document>

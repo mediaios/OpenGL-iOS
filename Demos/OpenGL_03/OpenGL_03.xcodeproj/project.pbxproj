@@ -19,6 +19,9 @@
 		AAA1C2C723290E4D00F9D227 /* GLView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA1C2C623290E4D00F9D227 /* GLView.m */; };
 		AAA1C2CA2329E49700F9D227 /* VertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = AAA1C2C82329E49600F9D227 /* VertexShader.glsl */; };
 		AAA1C2CB2329E49700F9D227 /* FragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = AAA1C2C92329E49600F9D227 /* FragmentShader.glsl */; };
+		AAC8CA02232A18D400223F5F /* MIMatrix.c in Sources */ = {isa = PBXBuildFile; fileRef = AAC8CA01232A18D400223F5F /* MIMatrix.c */; };
+		AAC8CA07232A3E1200223F5F /* ksVector.c in Sources */ = {isa = PBXBuildFile; fileRef = AAC8CA03232A3E1200223F5F /* ksVector.c */; };
+		AAC8CA08232A3E1200223F5F /* ksMatrix.c in Sources */ = {isa = PBXBuildFile; fileRef = AAC8CA06232A3E1200223F5F /* ksMatrix.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +64,12 @@
 		AAA1C2C623290E4D00F9D227 /* GLView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLView.m; sourceTree = "<group>"; };
 		AAA1C2C82329E49600F9D227 /* VertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VertexShader.glsl; sourceTree = "<group>"; };
 		AAA1C2C92329E49600F9D227 /* FragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FragmentShader.glsl; sourceTree = "<group>"; };
+		AAC8CA00232A18D400223F5F /* MIMatrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MIMatrix.h; sourceTree = "<group>"; };
+		AAC8CA01232A18D400223F5F /* MIMatrix.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MIMatrix.c; sourceTree = "<group>"; };
+		AAC8CA03232A3E1200223F5F /* ksVector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ksVector.c; sourceTree = "<group>"; };
+		AAC8CA04232A3E1200223F5F /* ksVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ksVector.h; sourceTree = "<group>"; };
+		AAC8CA05232A3E1200223F5F /* ksMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ksMatrix.h; sourceTree = "<group>"; };
+		AAC8CA06232A3E1200223F5F /* ksMatrix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ksMatrix.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +122,12 @@
 			children = (
 				AAA1C2C92329E49600F9D227 /* FragmentShader.glsl */,
 				AAA1C2C82329E49600F9D227 /* VertexShader.glsl */,
+				AAC8CA00232A18D400223F5F /* MIMatrix.h */,
+				AAC8CA01232A18D400223F5F /* MIMatrix.c */,
+				AAC8CA06232A3E1200223F5F /* ksMatrix.c */,
+				AAC8CA05232A3E1200223F5F /* ksMatrix.h */,
+				AAC8CA03232A3E1200223F5F /* ksVector.c */,
+				AAC8CA04232A3E1200223F5F /* ksVector.h */,
 				AAA1C290232903BA00F9D227 /* AppDelegate.h */,
 				AAA1C291232903BA00F9D227 /* AppDelegate.m */,
 				AAA1C293232903BA00F9D227 /* ViewController.h */,
@@ -284,6 +299,9 @@
 				AAA1C2A0232903BB00F9D227 /* main.m in Sources */,
 				AAA1C2C42329048800F9D227 /* MIGLESTools.m in Sources */,
 				AAA1C292232903BA00F9D227 /* AppDelegate.m in Sources */,
+				AAC8CA02232A18D400223F5F /* MIMatrix.c in Sources */,
+				AAC8CA07232A3E1200223F5F /* ksVector.c in Sources */,
+				AAC8CA08232A3E1200223F5F /* ksMatrix.c in Sources */,
 				AAA1C2C723290E4D00F9D227 /* GLView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
