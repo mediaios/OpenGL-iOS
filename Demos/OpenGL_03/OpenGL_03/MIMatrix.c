@@ -2,8 +2,8 @@
 //  MIMatrix.c
 //  OpenGL_03
 //
-//  Created by ethan on 2019/9/12.
-//  Copyright © 2019 ucloud. All rights reserved.
+//  Created by mediaios on 2019/9/12.
+//  Copyright © 2019 mediaios.  All rights reserved.
 //
 
 #include "MIMatrix.h"
@@ -148,4 +148,22 @@ void rotateMatrix(MIMatrix4 *result, float angle, float x, float y, float z)
 
         multiplyMatrix( result, &rotMat, result);
     }
+}
+
+void scaleMatrix(MIMatrix4 *result, float sx, float sy, float sz)
+{
+    result->m[0][0] *= sx;
+    result->m[0][1] *= sx;
+    result->m[0][2] *= sx;
+    result->m[0][3] *= sx;
+    
+    result->m[1][0] *= sy;
+    result->m[1][1] *= sy;
+    result->m[1][2] *= sy;
+    result->m[1][3] *= sy;
+    
+    result->m[2][0] *= sz;
+    result->m[2][1] *= sz;
+    result->m[2][2] *= sz;
+    result->m[2][3] *= sz;
 }

@@ -33,6 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) float mY;
 @property (nonatomic,assign) float mZ;
 
+// 旋转
+@property (nonatomic,assign) float rotateX;
+
+// 缩放
+@property (nonatomic,assign) float scaleZ;
 
 - (void)cleanup;
 @end

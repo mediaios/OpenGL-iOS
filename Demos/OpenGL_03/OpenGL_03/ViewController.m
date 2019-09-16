@@ -45,6 +45,20 @@
     self.glView.mZ = currentValue;
 }
 
+- (IBAction)rotateXSliderChange:(id)sender
+{
+    UISlider *slider = (UISlider *)sender;
+    float currentValue = [slider value];
+    self.glView.rotateX = currentValue;
+}
+
+- (IBAction)scaleZSliderChange:(id)sender
+{
+    UISlider *slider = (UISlider *)sender;
+    float currentValue = [slider value];
+    self.glView.scaleZ = currentValue;
+}
+
 - (void)resetControlls
 {
     [self.posXSlider setValue:self.glView.mX];

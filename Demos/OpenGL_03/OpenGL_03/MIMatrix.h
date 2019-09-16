@@ -2,8 +2,8 @@
 //  MIMatrix.h
 //  OpenGL_03
 //
-//  Created by ethan on 2019/9/12.
-//  Copyright © 2019 ucloud. All rights reserved.
+//  Created by mediaios on 2019/9/12.
+//  Copyright © 2019 mediaios. All rights reserved.
 //
 
 #ifndef MIMatrix_h
@@ -46,5 +46,7 @@ void frustum(MIMatrix4 * result, float left, float right, float bottom, float to
 void multiplyMatrix(MIMatrix4 * result, const MIMatrix4 *a, const MIMatrix4 *b);
 
 void rotateMatrix(MIMatrix4 *result, float angle, float x, float y, float z);
+
+void scaleMatrix(MIMatrix4 *result, float sx, float sy, float sz);
 
 #endif /* MIMatrix_h */

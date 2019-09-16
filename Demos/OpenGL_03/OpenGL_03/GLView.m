@@ -120,7 +120,7 @@
     glUseProgram(_programHandle);
     _positionSlot = glGetAttribLocation(_programHandle, "vPosition");
     _modelViewSlot = glGetUniformLocation(_programHandle, "modelView");
-//    _projectionSlot = glGetUniformLocation(_programHandle, "projection");
+    _projectionSlot = glGetUniformLocation(_programHandle, "projection");
 }
 
 - (void)setupProjection
@@ -137,6 +137,8 @@
 {
     initMatrix(&_modelViewMatrix);
     translateMatrix(&_modelViewMatrix, self.mX, self.mY, self.mZ);
+    rotateMatrix(&_modelViewMatrix, self.rotateX, 1.0, 0.0, 0.0);
+    scaleMatrix(&_modelViewMatrix, 1.0, 1.0, self.scaleZ);
     glUniformMatrix4fv(_modelViewSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
 }
 
@@ -182,7 +184,6 @@
     //
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
     
-    //[self drawTriangle];
     [self drawCube];
     
     [_context presentRenderbuffer:GL_RENDERBUFFER];
@@ -218,6 +219,20 @@
 - (void)setMZ:(float)mZ
 {
     _mZ = mZ;
+    [self updateTransform];
+    [self render];
+}
+
+- (void)setRotateX:(float)rotateX
+{
+    _rotateX = rotateX;
+    [self updateTransform];
+    [self render];
+}
+
+- (void)setScaleZ:(float)scaleZ
+{
+    _scaleZ = scaleZ;
     [self updateTransform];
     [self render];
 }
