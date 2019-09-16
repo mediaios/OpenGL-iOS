@@ -136,8 +136,13 @@
 - (void)updateTransform
 {
     initMatrix(&_modelViewMatrix);
+    // 位移
     translateMatrix(&_modelViewMatrix, self.mX, self.mY, self.mZ);
+    
+    // 旋转
     rotateMatrix(&_modelViewMatrix, self.rotateX, 1.0, 0.0, 0.0);
+    
+    // 缩放
     scaleMatrix(&_modelViewMatrix, 1.0, 1.0, self.scaleZ);
     glUniformMatrix4fv(_modelViewSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
 }

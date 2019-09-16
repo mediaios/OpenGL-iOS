@@ -21,6 +21,24 @@ void initMatrix(MIMatrix4 *result)
     result->m[3][3] = 1.0f;
 }
 
+
+/**
+ @brief 构造平移矩阵
+ 
+ @discussion 平移矩阵格式如下：
+ 
+ 1  0  0  x
+ 0  1  0  y
+ 0  0  1  z
+ 0  0  0  1
+ 
+ 平移矩阵 x 列矩阵(a,b,c,1) = 列矩阵(a+x,b+y,c+z,1)
+
+ @param result 平移矩阵
+ @param x 沿x轴方向平移大小
+ @param y 沿y轴方向平移大小
+ @param z 沿z轴方向平移大小
+ */
 void translateMatrix(MIMatrix4 *result, float x, float y, float z)
 {
     result->m[3][0] += (result->m[0][0] * x + result->m[1][0] * y + result->m[2][0] * z);
@@ -98,6 +116,16 @@ void multiplyMatrix(MIMatrix4 * result, const MIMatrix4 *a, const MIMatrix4 *b)
     memcpy(result, &tmp, sizeof(MIMatrix4));
 }
 
+
+/**
+ @brief 构造旋转矩阵
+
+ @param result <#result description#>
+ @param angle <#angle description#>
+ @param x <#x description#>
+ @param y <#y description#>
+ @param z <#z description#>
+ */
 void rotateMatrix(MIMatrix4 *result, float angle, float x, float y, float z)
 {
     float sinAngle, cosAngle;
@@ -150,6 +178,24 @@ void rotateMatrix(MIMatrix4 *result, float angle, float x, float y, float z)
     }
 }
 
+
+/**
+ @brief 构造缩放矩阵
+ 
+ @ discussion 缩放矩阵如下：
+ 
+ sx  0  0  0
+ 0   sy 0  0
+ 0   0  sz 0
+ 0   0  0  1
+ 
+ 缩放矩阵 x 列矩阵(a,b,c,1) = 列矩阵(a*sx,b*sy,c*sz,1)
+ 
+ @param result 缩放矩阵
+ @param sx 沿x轴缩放倍数
+ @param sy 沿y轴缩放倍数
+ @param sz 沿z轴缩放倍数
+ */
 void scaleMatrix(MIMatrix4 *result, float sx, float sy, float sz)
 {
     result->m[0][0] *= sx;
