@@ -45,22 +45,22 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="9sS-j5-M2h"/>
+                                    <constraint firstAttribute="height" constant="200" id="dil-t9-Nvk"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJM-PP-FAu" customClass="GLView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="686"/>
+                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dJM-PP-FAu" customClass="GLView">
+                                <rect key="frame" x="0.0" y="44" width="414" height="652"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="JMW-Fk-01f" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="33L-7h-Lil"/>
-                            <constraint firstItem="dJM-PP-FAu" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="3zV-uJ-V7n"/>
-                            <constraint firstItem="JMW-Fk-01f" firstAttribute="top" secondItem="dJM-PP-FAu" secondAttribute="bottom" constant="10" id="LNg-VI-2hk"/>
-                            <constraint firstItem="dJM-PP-FAu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QjI-Qe-WBk"/>
-                            <constraint firstAttribute="bottom" secondItem="JMW-Fk-01f" secondAttribute="bottom" id="T6r-pC-AIr"/>
-                            <constraint firstItem="JMW-Fk-01f" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qcT-N3-epx"/>
-                            <constraint firstItem="dJM-PP-FAu" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="wHY-i7-RWV"/>
+                            <constraint firstItem="dJM-PP-FAu" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="0Hc-66-Bdc"/>
+                            <constraint firstItem="dJM-PP-FAu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="28O-29-97P"/>
+                            <constraint firstAttribute="bottom" secondItem="JMW-Fk-01f" secondAttribute="bottom" id="JPi-py-TxY"/>
+                            <constraint firstItem="JMW-Fk-01f" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="aG7-pE-YaO"/>
+                            <constraint firstItem="JMW-Fk-01f" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="dJ2-OY-je0"/>
+                            <constraint firstItem="dJM-PP-FAu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="k0t-EO-DDM"/>
+                            <constraint firstItem="JMW-Fk-01f" firstAttribute="top" secondItem="dJM-PP-FAu" secondAttribute="bottom" id="oGQ-Kh-qWd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

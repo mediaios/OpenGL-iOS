@@ -55,18 +55,20 @@
     _eaglLayer = (CAEAGLLayer *)self.layer;
     _eaglLayer.opaque = YES;
     _eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+                                     [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking,
+                                     kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 }
 
 - (void)destoryBuffers
 {
-    if (_frameBuffer) {
-        glDeleteBuffers(1, &_frameBuffer);
-        _frameBuffer = 0;
-    }
     if (_renderBuffer) {
         glDeleteBuffers(1, &_renderBuffer);
         _renderBuffer = 0;
+    }
+
+    if (_frameBuffer) {
+        glDeleteBuffers(1, &_frameBuffer);
+        _frameBuffer = 0;
     }
 }
 
@@ -172,11 +174,8 @@
         0, 4, 1, 5, 2, 6, 3, 7
     };
 
-    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, 0, vertices );
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, 0, vertices);
     glEnableVertexAttribArray(_positionSlot);
-
-    
-    NSLog(@"qizhang---debug----posX:%f",self.mX);
     
     // Draw lines
     glDrawElements(GL_LINES, sizeof(indices)/sizeof(GLubyte), GL_UNSIGNED_BYTE, indices);

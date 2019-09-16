@@ -29,8 +29,6 @@
     UISlider * slider = (UISlider *)sender;
     float currentValue = [slider value];
     self.glView.mX = currentValue;
-    
-    NSLog(@" >> current x is %f", currentValue);
 }
 
 - (void)resetControlls
