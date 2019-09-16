@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "MIMatrix.h"
-#import "ksMatrix.h"
+#import "MIMatrix.h"
 @import OpenGLES;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -25,8 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
     GLint _modelViewSlot;
     GLint _projectionSlot;
     
-    ksMatrix4 _modelViewMatrix;
-    ksMatrix4 _projectionMatrix;
+    MIMatrix4 _modelViewMatrix;
+    MIMatrix4 _projectionMatrix;
     
 }
 //  定义图形的位置

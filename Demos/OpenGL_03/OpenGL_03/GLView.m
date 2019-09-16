@@ -126,8 +126,8 @@
 - (void)setupProjection
 {
     float aspect = self.frame.size.width / self.frame.size.height;
-    ksMatrixLoadIdentity(&_projectionMatrix);
-    ksPerspective(&_projectionMatrix, 60.0, aspect, 1.0f, 20.0f);
+    initMatrix(&_projectionMatrix);
+    perspectiveMatrix(&_projectionMatrix, 60.0, aspect, 1.0f, 20.0f);
     
     // Load projection matrix
     glUniformMatrix4fv(_projectionSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
@@ -135,26 +135,14 @@
 
 - (void)updateTransform
 {
-    ksMatrixLoadIdentity(&_modelViewMatrix);
-    ksMatrixTranslate(&_modelViewMatrix,self.mX,self.mY,self.mZ);
+    initMatrix(&_modelViewMatrix);
+    translateMatrix(&_modelViewMatrix, self.mX, self.mY, self.mZ);
     glUniformMatrix4fv(_modelViewSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
 }
 
 // 绘制立方体
 - (void)drawCube
-{
-//    GLfloat p_w = self.frame.size.height/self.frame.size.width;
-//    GLfloat vertices[] = {  // 坐标顶点数组
-//        0.2f*p_w, 0.2f, 0.0f,
-//        0.2f*p_w, -0.2f, 0.0f,
-//        -0.2f*p_w, -0.2f, 0.0f,
-//        -0.2f*p_w, 0.2f, 0.0f,
-//        0.1f*p_w, 0.1f, 1.0f,
-//        0.1f*p_w, -0.1f, 1.0f,
-//        -0.1f*p_w,-0.1f, 1.0f,
-//        -0.1f*p_w,0.1f, 1.0f
-//    };
-    
+{    
     GLfloat p_w = 1;
     GLfloat vertices[] = {  // 坐标顶点数组
         0.7f*p_w, 0.7f, 0.0f,
