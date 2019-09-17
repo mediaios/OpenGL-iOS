@@ -35,10 +35,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 旋转
 @property (nonatomic,assign) float rotateX;
+@property (nonatomic,assign) float rotateY;
+@property (nonatomic,assign) float rotateZ;
 
 // 缩放
+@property (nonatomic,assign) float scaleX;
+@property (nonatomic,assign) float scaleY;
 @property (nonatomic,assign) float scaleZ;
 
+- (void)render;
+- (void)triggerDisplayLink;
+- (void)resetTransform;
 - (void)cleanup;
 @end
 

@@ -9,6 +9,12 @@
 #import "GLView.h"
 #import "MIGLESTools.h"
 
+typedef NS_ENUM(NSUInteger, MIGLChangeType) {
+    MIGLChangeType_Default,
+    MIGLChangeType_X,
+    MIGLChangeType_Y,
+    MIGLChangeType_Z
+};
 
 @interface GLView()
 @property (nonatomic,strong) CADisplayLink *displayLink;
@@ -123,6 +129,10 @@
     _projectionSlot = glGetUniformLocation(_programHandle, "projection");
 }
 
+
+/**
+ 设置投影
+ */
 - (void)setupProjection
 {
     float aspect = self.frame.size.width / self.frame.size.height;
@@ -141,11 +151,63 @@
     
     // 旋转
     rotateMatrix(&_modelViewMatrix, self.rotateX, 1.0, 0.0, 0.0);
-    
+
     // 缩放
     scaleMatrix(&_modelViewMatrix, 1.0, 1.0, self.scaleZ);
     glUniformMatrix4fv(_modelViewSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
 }
+
+- (void)rotateChange:(MIGLChangeType)type
+{
+    initMatrix(&_modelViewMatrix);
+    translateMatrix(&_modelViewMatrix, self.mX, self.mY, self.mZ);
+    switch (type) {
+        case MIGLChangeType_Default:
+        case MIGLChangeType_X:
+            rotateMatrix(&_modelViewMatrix, self.rotateX, 1.0, 0.0, 0.0);
+            break;
+        case MIGLChangeType_Y:
+            rotateMatrix(&_modelViewMatrix, self.rotateY, 0.0, 1.0, 0.0);
+            break;
+        case MIGLChangeType_Z:
+            rotateMatrix(&_modelViewMatrix, self.rotateZ, 0.0, 0.0, 1.0);
+            break;
+            
+        default:
+            
+            break;
+    }
+    scaleMatrix(&_modelViewMatrix, 1.0, 1.0, self.scaleZ);
+    glUniformMatrix4fv(_modelViewSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
+}
+
+- (void)scaleChange:(MIGLChangeType)type
+{
+    initMatrix(&_modelViewMatrix);
+    translateMatrix(&_modelViewMatrix, self.mX, self.mY, self.mZ);
+    rotateMatrix(&_modelViewMatrix, self.rotateX, 1.0, 0.0, 0.0);
+    
+    switch (type) {
+        case MIGLChangeType_Default:
+        case MIGLChangeType_X:
+            scaleMatrix(&_modelViewMatrix, self.scaleX, 1.0, 1.0);
+            break;
+        case MIGLChangeType_Y:
+            scaleMatrix(&_modelViewMatrix, 1.0, self.scaleY, 1.0);
+            break;
+        case MIGLChangeType_Z:
+            scaleMatrix(&_modelViewMatrix, 1.0, 1.0, self.scaleZ);
+            break;
+            
+        default:
+            
+            break;
+    }
+    glUniformMatrix4fv(_modelViewSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
+}
+
+
+
 
 // 绘制立方体
 - (void)drawCube
@@ -194,6 +256,23 @@
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
+- (void)triggerDisplayLink
+{
+    if (_displayLink == nil) {
+        _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(linkCallBack:)];
+        [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    }else{
+        [_displayLink invalidate];
+        [_displayLink removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        _displayLink = nil;
+    }
+}
+
+- (void)linkCallBack:(CADisplayLink *)displayLink
+{
+    self.rotateX += displayLink.duration * 90;
+}
+
 - (void)resetTransform
 {
     if (_displayLink != nil) {
@@ -203,6 +282,9 @@
     _mX = 0.0;
     _mY = 0.0;
     _mZ = -5.5;
+    
+    _scaleZ = 1.0;
+    _rotateX = 0.0;
     
     [self updateTransform];
 }
@@ -231,14 +313,42 @@
 - (void)setRotateX:(float)rotateX
 {
     _rotateX = rotateX;
-    [self updateTransform];
+    [self rotateChange:MIGLChangeType_X];
+    [self render];
+}
+
+- (void)setRotateY:(float)rotateY
+{
+    _rotateY = rotateY;
+   [self rotateChange:MIGLChangeType_Y];
+    [self render];
+}
+
+- (void)setRotateZ:(float)rotateZ
+{
+    _rotateZ = rotateZ;
+    [self rotateChange:MIGLChangeType_Z];
+    [self render];
+}
+
+- (void)setScaleX:(float)scaleX
+{
+    _scaleX = scaleX;
+    [self scaleChange:MIGLChangeType_X];
+    [self render];
+}
+
+- (void)setScaleY:(float)scaleY
+{
+    _scaleY = scaleY;
+    [self scaleChange:MIGLChangeType_Y];
     [self render];
 }
 
 - (void)setScaleZ:(float)scaleZ
 {
     _scaleZ = scaleZ;
-    [self updateTransform];
+    [self scaleChange:MIGLChangeType_Z];
     [self render];
 }
 
